@@ -4,12 +4,42 @@
 
 <h1>掲示板</h1>
 
+<?php
+
+session_start();
+
+function setToken() {
+    $token = sha1(uniqid(mt_rand(), true));
+    $_SESSION['token'] = $token;
+}
+
+function checkToken() {
+    if (empty($_SESSION['token'])) {
+        echo "Sessionが空です";
+        exit;
+    }
+
+    if(($_SESSION['token']) !== $_POST['token']) {
+        echo "不正な投稿です。";
+        exit;
+    }
+
+    $_SESSION['token'] = null;
+}
+
+if (empty($_SESSION['token'])) {
+    setToken();
+}
+
+?>
+
 <h2>投稿フォーム</h2>
 
 <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
     <input type="text" name="personal_name" placeholder="名前" required><br><br>
     <textarea name="contents" rows="8" cols="40" placeholder="内容" required>
 </textarea><br><br>
+    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" name="btn" value="投稿する">
 </form>
 
@@ -33,6 +63,8 @@ function readData() {
 }
 
 function writeData() {
+    checkToken();
+
     $personal_name = $_POST['personal_name'];
     $contents = $_POST['contents'];
     $contents = nl2br($contents);
