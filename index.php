@@ -15,6 +15,11 @@
 
 <h2>スレッド</h2>
 
+<form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
+    <input type="hidden" name="method" value="DELETE">
+    <button type="submit">投稿を全削除する</button>
+</form>
+
 <?php
 
 date_default_timezone_set('Asia/Tokyo');
@@ -59,15 +64,23 @@ function writeData() {
     }
 
     fclose($fp);
+}
 
+function deleteData() {
+    file_put_contents(THREAD_FILE, "");
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["method"]) && $_POST["method"] === "DELETE") {
+        deleteData();
+    } else {
+        writeData();
+    }
+    
     // ブラウザのリロード対策
     $redirect_url = $_SERVER['HTTP_REFERER'];
     header("Location: $redirect_url");
     exit;
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    writeData();
 }
 
 readData();
