@@ -1,4 +1,4 @@
-<html>
+<html lang="ja">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,8 +15,7 @@
 
 <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
     <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
-    <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required>
-</textarea><br><br>
+    <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea><br><br>
     <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
 </form>
 
