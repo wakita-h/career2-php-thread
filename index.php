@@ -1,22 +1,25 @@
 <?php
+
 /**
  * 職業実践2 - 掲示板アプリ
  */
 
 session_start();
 
-function setToken() {
+function setToken()
+{
     $token = sha1(uniqid(mt_rand(), true));
     $_SESSION['token'] = $token;
 }
 
-function checkToken() {
+function checkToken()
+{
     if (empty($_SESSION['token'])) {
         echo "Sessionが空です";
         exit;
     }
 
-    if(($_SESSION['token']) !== $_POST['token']) {
+    if (($_SESSION['token']) !== $_POST['token']) {
         echo "不正な投稿です。";
         exit;
     }
@@ -46,7 +49,8 @@ if (empty($_SESSION['token'])) {
         <h2 class="text-muted py-3">投稿フォーム</h2>
         <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
             <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
-            <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea><br><br>
+            <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea>
+            <br><br>
             <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
             <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
         </form>
@@ -76,7 +80,8 @@ function readData()
     echo $thread_text;
 }
 
-function writeData() {
+function writeData()
+{
     checkToken();
 
     $personal_name = $_POST['personal_name'];
