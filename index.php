@@ -2,25 +2,6 @@
 /**
  * 職業実践2 - 掲示板アプリ
  */
-?>
-
-<html lang="ja">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
-    <title>掲示板App</title>
-</head>
-<body>
-
-<div class="container">
-    <div class="col-md-8">
-        <h1 class="text-center text-primary py-3">掲示板App</h1>
-
-        <h2 class="text-muted py-3">投稿フォーム</h2>
-
-<?php
 
 session_start();
 
@@ -46,28 +27,37 @@ function checkToken() {
 if (empty($_SESSION['token'])) {
     setToken();
 }
-
 ?>
 
-<h2>投稿フォーム</h2>
-<form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
-    <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
-    <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea><br><br>
-    <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
-</form>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+    <title>掲示板App</title>
+</head>
+<body>
 
-<h2 class="text-muted py-3">スレッド</h2>
+<div class="container">
+    <div class="col-md-8">
+        <h1 class="text-center text-primary py-3">掲示板App</h1>
 
-<form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
-    <input type="hidden" name="method" value="DELETE">
-    <button class="btn btn-danger" type="submit">投稿を全削除する</button>
-    <input type="text" name="personal_name" placeholder="名前" required><br><br>
-    <textarea name="contents" rows="8" cols="40" placeholder="内容" required>
-</textarea><br><br>
-    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-    <input type="submit" name="btn" value="投稿する">
-</form>
+        <h2 class="text-muted py-3">投稿フォーム</h2>
+        <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
+            <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
+            <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea><br><br>
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
+        </form>
 
+
+        <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
+            <input type="hidden" name="method" value="DELETE">
+            <button class="btn btn-danger" type="submit">投稿を全削除する</button>
+        </form>
+
+        <h2 class="text-muted py-3">スレッド</h2>
 <?php
 
 date_default_timezone_set('Asia/Tokyo');
