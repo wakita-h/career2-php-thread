@@ -1,7 +1,35 @@
 <?php
+
 /**
  * 職業実践2 - 掲示板アプリ
  */
+
+session_start();
+
+function setToken()
+{
+    $token = sha1(uniqid(mt_rand(), true));
+    $_SESSION['token'] = $token;
+}
+
+function checkToken()
+{
+    if (empty($_SESSION['token'])) {
+        echo "Sessionが空です";
+        exit;
+    }
+
+    if (($_SESSION['token']) !== $_POST['token']) {
+        echo "不正な投稿です。";
+        exit;
+    }
+
+    $_SESSION['token'] = null;
+}
+
+if (empty($_SESSION['token'])) {
+    setToken();
+}
 ?>
 
 <html lang="ja">
@@ -17,22 +45,23 @@
 <div class="container">
     <div class="col-md-8">
         <h1 class="text-center text-primary py-3">掲示板App</h1>
-        
+
         <h2 class="text-muted py-3">投稿フォーム</h2>
+        <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
+            <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
+            <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea>
+            <br><br>
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
+        </form>
 
-<form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
-    <input type="text" class="form-control" name="personal_name" placeholder="名前" required><br><br>
-    <textarea name="contents" class="form-control" rows="8" cols="40" placeholder="内容" required></textarea><br><br>
-    <input class="btn btn-primary"  type="submit" name="btn" value="投稿する">
-</form>
 
-<h2 class="text-muted py-3">スレッド</h2>
+        <form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
+            <input type="hidden" name="method" value="DELETE">
+            <button class="btn btn-danger" type="submit">投稿を全削除する</button>
+        </form>
 
-<form method="POST" action="<?php print($_SERVER['PHP_SELF']) ?>">
-    <input type="hidden" name="method" value="DELETE">
-    <button class="btn btn-danger" type="submit">投稿を全削除する</button>
-</form>
-
+        <h2 class="text-muted py-3">スレッド</h2>
 <?php
 
 date_default_timezone_set('Asia/Tokyo');
@@ -53,6 +82,8 @@ function readData()
 
 function writeData()
 {
+    checkToken();
+
     $personal_name = $_POST['personal_name'];
     $contents = $_POST['contents'];
     $contents = nl2br($contents);
@@ -92,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         writeData();
     }
-    
+
     // ブラウザのリロード対策
     $redirect_url = $_SERVER['HTTP_REFERER'];
     header("Location: $redirect_url");
