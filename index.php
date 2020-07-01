@@ -121,7 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-echo $thread->getList();
+$thread_data = $thread->getList();
+echo $thread_data;
 
 ?>
 
