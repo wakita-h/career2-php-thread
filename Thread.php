@@ -28,7 +28,7 @@ class Thread {
 
     public function delete()
     {
-    
+        file_put_contents(self::THREAD_FILE, "");
     }
 }
 ?>
