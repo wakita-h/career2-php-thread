@@ -5,6 +5,7 @@
  */
 
 session_start();
+new Thread();
 
 function setToken()
 {
@@ -67,18 +68,8 @@ if (empty($_SESSION['token'])) {
 date_default_timezone_set('Asia/Tokyo');
 const THREAD_FILE = 'thread.txt';
 
-function readData()
-{
-    // ファイルが存在しなければデフォルト空文字のファイルを作成する
-    if (! file_exists(THREAD_FILE)) {
-        $fp = fopen(THREAD_FILE, 'w');
-        fwrite($fp, '');
-        fclose($fp);
-    }
-
-    $thread_text = file_get_contents(THREAD_FILE);
-    echo $thread_text;
-}
+require_once './Thread.php';
+$thread = new Thread('掲示板App');
 
 function writeData()
 {
@@ -130,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-readData();
+echo $thread->getList();
 
 ?>
 
