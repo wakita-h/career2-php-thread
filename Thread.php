@@ -15,11 +15,19 @@ class Thread {
         return file_get_contents(self::THREAD_FILE);
     }
     
-    public function post() {
-    
+    public function post(string $personal_name, string $contents) 
+    {
+        $data = "<hr>\n";
+        $data = $data."<p>投稿日時: ".date("Y/m/d H:i:s")."</p>\n";
+        $data = $data."<p>投稿者:".$personal_name."</p>\n";
+        $data = $data."<p>内容:</p>\n";
+        $data = $data."<p>".$contents."</p>\n";
+
+        file_put_contents(self::THREAD_FILE, $data, FILE_APPEND);
     }
 
-    public function delete() {
+    public function delete()
+    {
     
     }
 }
