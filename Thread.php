@@ -11,7 +11,7 @@ class Thread
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->dbh = new PDO('mysql:dbname=thread;host=127.0.0.1', 'root', 'password');
+    //    $this->dbh = new PDO('mysql:dbname=thread;host=127.0.0.1', 'root', 'password');
     }
 
     public function getList()
